@@ -2,3 +2,8 @@ allowBuilds:
   '@scarf/scarf': true
   bcrypt: true
   unrs-resolver: true
+
+onlyBuiltDependencies:
+  - '@scarf/scarf'
+  - bcrypt
+  - unrs-resolver
