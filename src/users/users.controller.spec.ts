@@ -3,6 +3,7 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
+import { AuthGuard } from '../auth/auth.guard';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -25,7 +26,12 @@ describe('UsersController', () => {
           useValue: mockExpenseRepository,
         },
       ],
-    }).compile();
+    })
+      .overrideGuard(AuthGuard)
+      .useValue({
+        canActivate: () => true,
+      })
+      .compile();
 
     controller = module.get<UsersController>(UsersController);
   });
