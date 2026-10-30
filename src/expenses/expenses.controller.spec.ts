@@ -3,6 +3,7 @@ import { ExpensesController } from './expenses.controller';
 import { ExpensesService } from './expenses.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Expense } from './entities/expense.entity';
+import { AuthGuard } from '../auth/auth.guard';
 
 describe('ExpensesController', () => {
   let controller: ExpensesController;
@@ -25,7 +26,12 @@ describe('ExpensesController', () => {
           useValue: mockExpenseRepository,
         },
       ],
-    }).compile();
+    })
+      .overrideGuard(AuthGuard)
+      .useValue({
+        canActivate: () => true,
+      })
+      .compile();
 
     controller = module.get<ExpensesController>(ExpensesController);
   });
